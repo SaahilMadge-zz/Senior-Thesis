@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ia_math">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/ia_math.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,111 @@
+# This file contains functions that are no longer needed - just as a backup
+
+
+
+  //get features with sets of sentences as input
+    //TODO: make sure to propogate the updates from getFeatures to this before using
+    static HashMap<Integer, Double> getFeaturesMulti(Annotation Q, Annotation A, ArrayList<CoreMap> sentZList, boolean useAnswer) {
+        HashMap<Integer, Double> features = new HashMap<Integer, Double>();
+
+        //sentZ - sentence under consideration
+
+        CoreMap sentQ = Q.get(CoreAnnotations.SentencesAnnotation.class).get(0);
+        CoreMap sentA = A.get(CoreAnnotations.SentencesAnnotation.class).get(0);
+
+        HashMap<String, Double> qPosCnt = new HashMap<String, Double>();
+        HashMap<String, Double> aPosCnt = new HashMap<String, Double>();
+        HashMap<String, Double> wordCnt = new HashMap<String, Double>();
+        int qMatchCount = 0, aMatchCount = 0, matchCount = 0;
+
+        for(CoreMap sentZ : sentZList) {
+            for (CoreLabel tokenZ : sentZ.get(CoreAnnotations.TokensAnnotation.class)) {
+                String wordZ = tokenZ.get(CoreAnnotations.TextAnnotation.class).toLowerCase();
+                String posZ = tokenZ.get(CoreAnnotations.PartOfSpeechAnnotation.class);
+                String lemmaZ = tokenZ.get(CoreAnnotations.LemmaAnnotation.class);
+//              String neZ = tokenZ.get(CoreAnnotations.NamedEntityTagAnnotation.class);
+
+                //Question part
+                for (CoreLabel tokenQ : sentQ.get(CoreAnnotations.TokensAnnotation.class)) {
+                    String wordQ = tokenQ.get(CoreAnnotations.TextAnnotation.class).toLowerCase();
+                    String posQ = tokenQ.get(CoreAnnotations.PartOfSpeechAnnotation.class);
+                    String lemmaQ = tokenQ.get(CoreAnnotations.LemmaAnnotation.class);
+//                  String neQ = tokenQ.get(CoreAnnotations.NamedEntityTagAnnotation.class);
+
+                    if (wordZ.equals(wordQ)) {
+                        if (posQ.charAt(0) == posZ.charAt(0))
+                            Tools.incrementMap(qPosCnt, posZ);
+                        qMatchCount++;
+                        matchCount++;
+                        Tools.incrementMap(wordCnt, wordZ);
+
+                        //direct word itself
+                        Tools.addFeature(features, wordZ, 1.0);
+                    }
+                    else if (LEMMA && lemmaZ.equals(lemmaQ) && posQ.charAt(0) == posZ.charAt(0)) {
+                        if (posQ.charAt(0) == posZ.charAt(0))
+                            Tools.incrementMap(qPosCnt, posZ);
+                        qMatchCount++;
+                        matchCount++;
+                        Tools.incrementMap(wordCnt, lemmaZ);
+
+                        //direct lemma itself
+                        Tools.addFeature(features, lemmaZ, 1.0);
+                    }
+                }
+
+                //Answer part
+                if (useAnswer) {
+                    for (CoreLabel tokenA : sentA.get(CoreAnnotations.TokensAnnotation.class)) {
+                        String wordA = tokenA.get(CoreAnnotations.TextAnnotation.class).toLowerCase();
+                        String posA = tokenA.get(CoreAnnotations.PartOfSpeechAnnotation.class);
+                        String lemmaA = tokenA.get(CoreAnnotations.LemmaAnnotation.class);
+
+//                  String neA = tokenA.get(CoreAnnotations.NamedEntityTagAnnotation.class);
+
+                        if (wordZ.equals(wordA)) {
+                            if (posA.charAt(0) == posZ.charAt(0))
+                                Tools.incrementMap(aPosCnt, posZ);
+                            aMatchCount++;
+                            matchCount++;
+                            Tools.incrementMap(wordCnt, wordZ);
+
+                            //direct word itself
+                            Tools.addFeature(features, wordZ, 1.0);
+                        }
+                        else if (LEMMA && lemmaZ.equals(lemmaA) && posA.charAt(0) == posZ.charAt(0)) {
+                            if (posA.charAt(0) == posZ.charAt(0))
+                                Tools.incrementMap(qPosCnt, posZ);
+                            qMatchCount++;
+                            matchCount++;
+                            Tools.incrementMap(wordCnt, lemmaZ);
+
+                            //direct lemma itself
+                            Tools.addFeature(features, lemmaZ, 1.0);
+                        }
+                    }
+                }
+            }
+        }
+
+        for(String pos : qPosCnt.keySet()) {
+            Tools.addFeature(features, "QPOSCount_" + pos, qPosCnt.get(pos));
+            Tools.addFeature(features, "QPOSCount_" + pos.charAt(0), qPosCnt.get(pos));
+        }
+
+        for(String pos : aPosCnt.keySet()) {
+            Tools.addFeature(features, "APOSCount_" + pos, aPosCnt.get(pos));
+            Tools.addFeature(features, "APOSCount_" + pos.charAt(0), aPosCnt.get(pos));
+        }
+
+
+        Tools.addFeature(features, "QMatchCount_"+qMatchCount, 1.);
+        Tools.addFeature(features, "AMatchCount_"+aMatchCount, 1.);
+//        Tools.addFeature(features, "ComboMatchCount_"+matchCount, 1.);
+
+        return features;
+    }
+
+    //Helper function
+    static HashMap<Integer, Double> getFeaturesMulti(Annotation Q, Annotation A, ArrayList<CoreMap> Z) {
+        return getFeaturesMulti(Q, A, Z, true);
+    }

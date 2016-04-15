@@ -1,0 +1,10 @@
+1. Removed lowercase for now, since coref needs Case. (perf drops from 66% to 60%).
+    - Added it back - lowercasing now in the lexicalised features systems.
+2. useAnswer is off/on.
+3. Remember to set MultiSentenceEval On for using multisentence in eval.
+
+
+
+
+To Try:
+1. Vary the count features between double values and discrete binned values.
