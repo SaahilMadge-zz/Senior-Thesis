@@ -193,10 +193,10 @@ public class Paragraph implements Serializable {
 
 
     static ArrayList<Paragraph> readParagraphs(String inFile) throws IOException {
-        System.out.println("in method");
+//        System.out.println("in method");
         BufferedReader br = new BufferedReader(new FileReader(inFile));
         ArrayList<Paragraph> paragraphs = new ArrayList<Paragraph>();
-        System.out.print("Reading paragraphs... ");
+//        System.out.print("Reading paragraphs... ");
         int index=0;
         try {
             String line = br.readLine();
@@ -252,7 +252,7 @@ public class Paragraph implements Serializable {
 
                 //entity graphs
                 for(CoreMap sentence : para.annotation.get(CoreAnnotations.SentencesAnnotation.class)) {
-                    System.out.println(sentence.toString());
+//                    System.out.println(sentence.toString());
                     para.sentEntityGraphs.add(new EntityGraph(para, sentence, true));
                     para.sentDepGraphs.add(sentence.get(SemanticGraphCoreAnnotations.CollapsedCCProcessedDependenciesAnnotation.class));
 //                    para.sentDepGraphs.add(ParseProcess.splitClauses(sentence));

@@ -1,1 +1,0 @@
-scp out/production/MCTest/*.class karthikn@rosetta$1.csail.mit.edu:/scratch/karthikn/mctest/out/production/MCTest

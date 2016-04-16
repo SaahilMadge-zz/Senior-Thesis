@@ -64,19 +64,91 @@ public class EntityGraph implements Serializable {
 
         //create the clauses
         updateClauses(graph, graph.getFirstRoot());
-        System.out.println(graph.toFormattedString());
+//        System.out.println(graph.toFormattedString());
 //
+//        System.out.println("edges: ");
+
+//        SemanticGraphEdge nsubj_edge = null;
+//        SemanticGraphEdge cop_edge = null;
+//        SemanticGraphEdge dobj_edge = null;
+        HashSet<SemanticGraphEdge> nsubj_edges = new HashSet<SemanticGraphEdge>();
+        HashSet<SemanticGraphEdge> dobj_edges = new HashSet<SemanticGraphEdge>();
+        HashSet<SemanticGraphEdge> cop_edges = new HashSet<SemanticGraphEdge>();
+
         for (SemanticGraphEdge e : graph.edgeIterable())
         {
-            System.out.println(e.toString());
+//            System.out.println(e.toString());
+//            System.out.println(e.getRelation());
+//            System.out.println(e.getGovernor());
+//            System.out.println(e.getRelation());
+//            System.out.println(e.getDependent());
+
+            GrammaticalRelation relation = e.getRelation();
+            if(relation.getShortName().equals("nsubj"))
+            {
+//                System.out.println(e.toString());
+//                System.out.println(e.getGovernor().);
+//                System.out.println(e.getRelation());
+//                System.out.println(e.getDependent());
+                nsubj_edges.add(e);
+            }
+//            System.out.println(relation.getShortName());
+            else if (relation.getShortName().equals("dobj"))
+            {
+                dobj_edges.add(e);
+            }
+            else if (relation.getShortName().equals("cop"))
+            {
+                cop_edges.add(e);
+            }
+
         }
 
-        for (IndexedWord iw : graph.getRoots())
+        /* NOW WE FIND THE PROPER TRIPLE, ACCORDING TO THE RULES:
+            1) If nsubj and dobj, then nsubj dependent is SUBJECT, nsubj governor is VERB, dobj dependent is DOBJ,
+                dobj governor is VERB
+            2) If nsubj and cop, then nsubj dependent is SUBJECT, nsubj governor is ADJ/NOUN, cop dependent is VERB,
+                cop governor is ADJ/NOUN
+        */
+
+        // if nsubj + dobj
+
+        for (SemanticGraphEdge nsubj_edge : nsubj_edges)
         {
-            System.out.println(iw.toString());
-            System.out.println("descendants: ");
-            for (IndexedWord desc : graph.getChildList(iw));
+            IndexedWord nsubj = nsubj_edge.getDependent();
+            for (SemanticGraphEdge dobj_edge : dobj_edges)
+            {
+                if (dobj_edge != null) {
+                    IndexedWord verb = nsubj_edge.getGovernor();
+                    IndexedWord dobj = dobj_edge.getDependent();
+                    assert (verb.equals(dobj_edge.getGovernor()));
+
+                    KnowledgeGraphTriple newTriple = new KnowledgeGraphTriple(nsubj, verb, dobj);
+                    System.out.println(newTriple.toString());
+                }
+            }
+
+            for (SemanticGraphEdge cop_edge : cop_edges)
+            {
+                if (cop_edge != null) {
+                    IndexedWord whatItIs = nsubj_edge.getGovernor();
+                    IndexedWord verb = cop_edge.getDependent();
+                    assert (whatItIs.equals(cop_edge.getGovernor()));
+                    KnowledgeGraphTriple newTriple = new KnowledgeGraphTriple(nsubj, verb, whatItIs);
+                    System.out.println(newTriple.toString());
+                }
+            }
         }
+
+
+//        System.out.println("roots: ");
+
+//        for (IndexedWord iw : graph.getRoots())
+//        {
+//            System.out.println(iw.toString());
+//            System.out.println("descendants: ");
+//            for (IndexedWord desc : graph.getChildList(iw));
+//        }
 
 //        System.out.println(graph.);
 
@@ -176,6 +248,25 @@ public class EntityGraph implements Serializable {
 
         return clauseNum;
 
+    }
+
+    class KnowledgeGraphTriple
+    {
+        IndexedWord subject;
+        IndexedWord verb;
+        IndexedWord object;
+
+        public KnowledgeGraphTriple(IndexedWord s, IndexedWord v, IndexedWord o)
+        {
+            subject = s;
+            verb = v;
+            object = o;
+        }
+
+        public String toString()
+        {
+            return "< " + subject.toString() + ", " + verb.toString() + ", " + object.toString() + " >";
+        }
     }
 
 
