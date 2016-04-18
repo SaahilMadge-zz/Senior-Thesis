@@ -2,3 +2,5 @@
 bag_of_words_test/*.tsv
 BarzilayCode/*
 ModifiedEntityGraph/lib/*
+word2vec*
+*.bin
