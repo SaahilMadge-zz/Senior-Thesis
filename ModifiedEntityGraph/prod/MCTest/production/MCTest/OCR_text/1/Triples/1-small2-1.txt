@@ -1,0 +1,7 @@
+< meaning/NN, is/VBZ, self-evident/JJ >
+< town/NN, are/VBP, unpersuasive/JJ >
+< term/NN, was/VBD, current/JJ >
+< dictionary/NN, was/VBD, suggests/VBZ >
+< Billings/NNS, was/VBD, suggests/VBZ >
+< Billings/NNS, was/VBD, unknown/JJ >
+< Billings/NNS, was/VBD, unknown/JJ >
