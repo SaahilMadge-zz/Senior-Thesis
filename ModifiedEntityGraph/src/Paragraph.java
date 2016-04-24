@@ -195,7 +195,7 @@ public class Paragraph implements Serializable {
     static ArrayList<Paragraph> readParagraphs(String inFile) throws IOException {
 //        System.out.println("in method");
         FileInputStream fs = new FileInputStream(inFile);
-        BufferedReader br = new BufferedReader(new InputStreamReader(fs, "UTF-16LE"));
+        BufferedReader br = new BufferedReader(new InputStreamReader(fs, "UTF-8"));
         ArrayList<Paragraph> paragraphs = new ArrayList<Paragraph>();
 //        System.out.print("Reading paragraphs... ");
         int index=0;

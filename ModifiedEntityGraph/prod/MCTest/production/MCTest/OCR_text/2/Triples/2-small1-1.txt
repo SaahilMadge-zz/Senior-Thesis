@@ -1,0 +1,13 @@
+< Balzac/NNP, wise/JJ, money/NN >
+< Balzac/NNP, was/VBD, wise/JJ >
+< Balzac/NNP, be/VB, wise/JJ >
+< source/NN, was/VBD, sensitivity/NN >
+< It/PRP, was/VBD, seems/VBZ >
+< life/NN, prison/NN, doors/NNS >
+< life/NN, is/VBZ, prison/NN >
+< he/PRP, discovered/VBD, doors/NNS >
+< he/PRP, is/VBZ, discovered/VBD >
+< fiction/NN, sprang/VBD, doors/NNS >
+< fiction/NN, is/VBZ, sprang/VBD >
+< imagination/NN, open/VB, doors/NNS >
+< imagination/NN, is/VBZ, open/VB >
