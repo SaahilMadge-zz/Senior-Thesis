@@ -1,0 +1,17 @@
+< artifacts/NNS, inspired/VBN, reevaluation/NN >
+< linguists/NNS, have/VBP, script/NN >
+< we/PRP, excavate/VBP, people/NNS >
+< we/PRP, excavate/VBP, structures/NNS >
+< we/PRP, excavate/VBP, clues/NNS >
+< we/PRP, uncover/VBP, people/NNS >
+< we/PRP, uncover/VBP, structures/NNS >
+< we/PRP, uncover/VBP, clues/NNS >
+< I/PRP, drawn/VBN, people/NNS >
+< I/PRP, drawn/VBN, structures/NNS >
+< I/PRP, drawn/VBN, clues/NNS >
+< writings/NNS, useless/JJ, insights/NNS >
+< writings/NNS, useless/JJ, context/NN >
+< writings/NNS, been/VBN, useless/JJ >
+< we/PRP, gleaned/VBN, insights/NNS >
+< we/PRP, gleaned/VBN, context/NN >
+< we/PRP, been/VBN, gleaned/VBN >

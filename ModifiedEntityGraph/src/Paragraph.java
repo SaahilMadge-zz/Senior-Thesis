@@ -190,8 +190,6 @@ public class Paragraph implements Serializable {
         QRFeatures.get(quesNum).put(rel, features);
     }
 
-
-
     static ArrayList<Paragraph> readParagraphs(String inFile) throws IOException {
 //        System.out.println("in method");
         FileInputStream fs = new FileInputStream(inFile);
